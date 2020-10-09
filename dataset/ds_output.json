@@ -1,0 +1,17 @@
+{
+	"name": "ds_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdfBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "output"
+			}
+		}
+	}
+}
