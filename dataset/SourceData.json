@@ -1,0 +1,25 @@
+{
+	"name": "SourceData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdfBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sourceFolder": {
+				"type": "string"
+			},
+			"sourceFile": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "input"
+			}
+		}
+	}
+}
