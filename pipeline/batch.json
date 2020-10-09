@@ -23,21 +23,32 @@
 				],
 				"typeProperties": {
 					"referenceObjects": {
-						"linkedServices": [],
-						"datasets": []
+						"linkedServices": [
+							{
+								"referenceName": "AdfBlobStorage",
+								"type": "LinkedServiceReference"
+							}
+						],
+						"datasets": [
+							{
+								"referenceName": "ds_input",
+								"type": "DatasetReference"
+							},
+							{
+								"referenceName": "ds_output",
+								"type": "DatasetReference"
+							}
+						]
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "tojobatchhc",
+					"referenceName": "ls_batch",
 					"type": "LinkedServiceReference"
 				}
 			}
 		],
 		"parameters": {
-			"sourceFolder": {
-				"type": "string"
-			},
-			"sourceBlob": {
+			"inputFile": {
 				"type": "string"
 			}
 		},
