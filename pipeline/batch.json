@@ -3,9 +3,16 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Custom1",
+				"name": "primes",
 				"type": "Custom",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -26,9 +33,53 @@
 						"linkedServices": [],
 						"datasets": []
 					}
+				},
+				"linkedServiceName": {
+					"referenceName": "tojobatchhc",
+					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceData",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
+		"parameters": {
+			"sourceFolder": {
+				"type": "string"
+			},
+			"sourceBlob": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
