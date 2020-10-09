@@ -22,6 +22,12 @@
 					}
 				],
 				"typeProperties": {
+					"command": "/bin/bash run.sh",
+					"resourceLinkedService": {
+						"referenceName": "AdfBlobStorage",
+						"type": "LinkedServiceReference"
+					},
+					"folderPath": "primes",
 					"referenceObjects": {
 						"linkedServices": [
 							{
