@@ -8,6 +8,10 @@
 				"pipelineReference": {
 					"referenceName": "batch",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"sourceFolder": "@triggerBody().folderPath",
+					"sourceBlob": "@triggerBody().fileName"
 				}
 			}
 		],
