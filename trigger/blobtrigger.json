@@ -10,8 +10,7 @@
 					"type": "PipelineReference"
 				},
 				"parameters": {
-					"sourceFolder": "@triggerBody().folderPath",
-					"sourceBlob": "@triggerBody().fileName"
+					"inputFile": "@triggerBody().fileName"
 				}
 			}
 		],
@@ -19,7 +18,7 @@
 		"typeProperties": {
 			"blobPathBeginsWith": "/input/blobs/",
 			"ignoreEmptyBlobs": true,
-			"scope": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/bigcomputebase/providers/Microsoft.Storage/storageAccounts/tojobatchhc",
+			"scope": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
 			]
