@@ -1,0 +1,91 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adftojo"
+		},
+		"AdfBlobStorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AdfBlobStorage'"
+		},
+		"ls_batch_accessKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessKey' of 'ls_batch'"
+		},
+		"blobtrigger_properties_batch_parameters_inputFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"blobtrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo"
+		},
+		"ls_batch_properties_typeProperties_accountName": {
+			"type": "string",
+			"defaultValue": "adftojo"
+		},
+		"ls_batch_properties_typeProperties_batchUri": {
+			"type": "string",
+			"defaultValue": "https://adftojo.westeurope.batch.azure.com"
+		},
+		"ls_batch_properties_typeProperties_poolName": {
+			"type": "string",
+			"defaultValue": "primes"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adftojo_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AdfBlobStorage_connectionString": {
+						"value": "[parameters('AdfBlobStorage_connectionString')]"
+					},
+					"ls_batch_accessKey": {
+						"value": "[parameters('ls_batch_accessKey')]"
+					},
+					"ls_batch_properties_typeProperties_accountName": {
+						"value": "[parameters('ls_batch_properties_typeProperties_accountName')]"
+					},
+					"ls_batch_properties_typeProperties_batchUri": {
+						"value": "[parameters('ls_batch_properties_typeProperties_batchUri')]"
+					},
+					"ls_batch_properties_typeProperties_poolName": {
+						"value": "[parameters('ls_batch_properties_typeProperties_poolName')]"
+					},
+					"blobtrigger_properties_batch_parameters_inputFile": {
+						"value": "[parameters('blobtrigger_properties_batch_parameters_inputFile')]"
+					},
+					"blobtrigger_properties_typeProperties_scope": {
+						"value": "[parameters('blobtrigger_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
