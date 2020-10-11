@@ -31,6 +31,10 @@
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
 		},
+		"blobtrigger_properties_batch_parameters_inputFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo"
@@ -64,8 +68,7 @@
 				},
 				"parameters": {
 					"sastoken": {
-						"type": "string",
-						"defaultValue": "?sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2020-11-10T08:10:25Z&st=2020-10-09T23:10:25Z&spr=https&sig=reFFC3PIHQcOp%2BQLkJJvQgV%2BRBaDlst7lhDlKMpv7as%3D"
+						"type": "string"
 					}
 				},
 				"annotations": [],
@@ -92,8 +95,7 @@
 				},
 				"parameters": {
 					"sastoken": {
-						"type": "string",
-						"defaultValue": "?sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2020-11-10T08:10:25Z&st=2020-10-09T23:10:25Z&spr=https&sig=reFFC3PIHQcOp%2BQLkJJvQgV%2BRBaDlst7lhDlKMpv7as%3D"
+						"type": "string"
 					}
 				},
 				"annotations": [],
@@ -167,26 +169,25 @@
 							},
 							"folderPath": "primes",
 							"referenceObjects": {
-								"linkedServices": [
-									{
-										"referenceName": "AdfBlobStorage",
-										"type": "LinkedServiceReference",
-										"parameters": {}
-									}
-								],
+								"linkedServices": [],
 								"datasets": [
 									{
 										"referenceName": "ds_input",
 										"type": "DatasetReference",
-										"parameters": {}
+										"parameters": {
+											"sastoken": "?sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2020-11-10T08:10:25Z&st=2020-10-09T23:10:25Z&spr=https&sig=reFFC3PIHQcOp%2BQLkJJvQgV%2BRBaDlst7lhDlKMpv7as%3D"
+										}
 									},
 									{
 										"referenceName": "ds_output",
 										"type": "DatasetReference",
-										"parameters": {}
+										"parameters": {
+											"sastoken": "?sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2020-11-10T08:10:25Z&st=2020-10-09T23:10:25Z&spr=https&sig=reFFC3PIHQcOp%2BQLkJJvQgV%2BRBaDlst7lhDlKMpv7as%3D"
+										}
 									}
 								]
-							}
+							},
+							"retentionTimeInDays": 1
 						},
 						"linkedServiceName": {
 							"referenceName": "ls_batch",
@@ -197,14 +198,17 @@
 				"parameters": {
 					"inputFile": {
 						"type": "string"
+					},
+					"inputFolder": {
+						"type": "string"
 					}
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]",
 				"[concat(variables('factoryId'), '/datasets/ds_input')]",
 				"[concat(variables('factoryId'), '/datasets/ds_output')]",
+				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]",
 				"[concat(variables('factoryId'), '/linkedServices/ls_batch')]"
 			]
 		},
@@ -214,7 +218,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
@@ -222,7 +226,8 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {
-							"inputFile": "[parameters('blobtrigger_properties_batch_parameters_inputFile')]"
+							"inputFile": "[parameters('blobtrigger_properties_batch_parameters_inputFile')]",
+							"inputFolder": "[parameters('blobtrigger_properties_batch_parameters_inputFolder')]"
 						}
 					}
 				],

@@ -6,38 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "adftojo"
-		},
-		"AdfBlobStorage_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AdfBlobStorage'"
-		},
-		"ls_batch_accessKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessKey' of 'ls_batch'"
-		},
-		"ls_batch_properties_typeProperties_accountName": {
-			"type": "string",
-			"defaultValue": "adftojo"
-		},
-		"ls_batch_properties_typeProperties_batchUri": {
-			"type": "string",
-			"defaultValue": "https://adftojo.westeurope.batch.azure.com"
-		},
-		"ls_batch_properties_typeProperties_poolName": {
-			"type": "string",
-			"defaultValue": "primes"
-		},
-		"blobtrigger_properties_batch_parameters_inputFile": {
-			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
-		},
-		"blobtrigger_properties_batch_parameters_inputFolder": {
-			"type": "string",
-			"defaultValue": "@triggerBody().folderPath"
-		},
-		"blobtrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo"
 		}
 	},
 	"variables": {
@@ -115,9 +83,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_input')]",
-				"[concat(variables('factoryId'), '/datasets/ds_output')]",
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]",
-				"[concat(variables('factoryId'), '/linkedServices/ls_batch')]"
+				"[concat(variables('factoryId'), '/datasets/ds_output')]"
 			]
 		},
 		{
@@ -143,9 +109,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_output')]",
@@ -170,47 +134,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AdfBlobStorage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AdfBlobStorage_connectionString')]"
-				}
-			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ls_batch')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBatch",
-				"typeProperties": {
-					"accountName": "[parameters('ls_batch_properties_typeProperties_accountName')]",
-					"accessKey": {
-						"type": "SecureString",
-						"value": "[parameters('ls_batch_accessKey')]"
-					},
-					"batchUri": "[parameters('ls_batch_properties_typeProperties_batchUri')]",
-					"poolName": "[parameters('ls_batch_properties_typeProperties_poolName')]",
-					"linkedServiceName": {
-						"referenceName": "AdfBlobStorage",
-						"type": "LinkedServiceReference"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/blobtrigger')]",
@@ -226,8 +150,8 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {
-							"inputFile": "[parameters('blobtrigger_properties_batch_parameters_inputFile')]",
-							"inputFolder": "[parameters('blobtrigger_properties_batch_parameters_inputFolder')]"
+							"inputFile": "@triggerBody().fileName",
+							"inputFolder": "@triggerBody().folderPath"
 						}
 					}
 				],
@@ -235,7 +159,7 @@
 				"typeProperties": {
 					"blobPathBeginsWith": "/input/blobs/",
 					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('blobtrigger_properties_typeProperties_scope')]",
+					"scope": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo",
 					"events": [
 						"Microsoft.Storage.BlobCreated"
 					]

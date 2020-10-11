@@ -15,14 +15,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessKey' of 'ls_batch'"
 		},
-		"blobtrigger_properties_batch_parameters_inputFile": {
-			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
-		},
-		"blobtrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo"
-		},
 		"ls_batch_properties_typeProperties_accountName": {
 			"type": "string",
 			"defaultValue": "adftojo"
@@ -34,6 +26,18 @@
 		"ls_batch_properties_typeProperties_poolName": {
 			"type": "string",
 			"defaultValue": "primes"
+		},
+		"blobtrigger_properties_batch_parameters_inputFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"blobtrigger_properties_batch_parameters_inputFolder": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"blobtrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo"
 		},
 		"containerUri": {
 			"type": "string",
@@ -79,6 +83,9 @@
 					},
 					"blobtrigger_properties_batch_parameters_inputFile": {
 						"value": "[parameters('blobtrigger_properties_batch_parameters_inputFile')]"
+					},
+					"blobtrigger_properties_batch_parameters_inputFolder": {
+						"value": "[parameters('blobtrigger_properties_batch_parameters_inputFolder')]"
 					},
 					"blobtrigger_properties_typeProperties_scope": {
 						"value": "[parameters('blobtrigger_properties_typeProperties_scope')]"
