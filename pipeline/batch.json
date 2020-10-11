@@ -56,6 +56,9 @@
 		"parameters": {
 			"inputFile": {
 				"type": "string"
+			},
+			"inputFolder": {
+				"type": "string"
 			}
 		},
 		"annotations": []
