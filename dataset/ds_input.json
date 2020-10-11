@@ -7,8 +7,7 @@
 		},
 		"parameters": {
 			"sastoken": {
-				"type": "string",
-				"defaultValue": "?sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2020-11-10T08:10:25Z&st=2020-10-09T23:10:25Z&spr=https&sig=reFFC3PIHQcOp%2BQLkJJvQgV%2BRBaDlst7lhDlKMpv7as%3D"
+				"type": "string"
 			}
 		},
 		"annotations": [],
