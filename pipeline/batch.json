@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "primes",
+				"description": "primes",
 				"type": "Custom",
 				"dependsOn": [],
 				"policy": {
