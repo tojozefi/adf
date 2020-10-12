@@ -61,14 +61,7 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [
-							{
-								"name": "folderPath"
-							},
-							{
-								"name": "filePath"
-							}
-						],
+						"userProperties": [],
 						"typeProperties": {
 							"command": "/bin/bash run.sh",
 							"resourceLinkedService": {
@@ -94,8 +87,7 @@
 										}
 									}
 								]
-							},
-							"retentionTimeInDays": 1
+							}
 						},
 						"linkedServiceName": {
 							"referenceName": "ls_batch",
@@ -116,8 +108,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_input')]",
 				"[concat(variables('factoryId'), '/datasets/ds_output')]",
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]",
-				"[concat(variables('factoryId'), '/linkedServices/ls_batch')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_batch')]",
+				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]"
 			]
 		},
 		{
