@@ -3,8 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "prime",
-				"description": "primes",
+				"name": "primes",
 				"type": "Custom",
 				"dependsOn": [],
 				"policy": {
@@ -14,14 +13,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [
-					{
-						"name": "folderPath"
-					},
-					{
-						"name": "filePath"
-					}
-				],
+				"userProperties": [],
 				"typeProperties": {
 					"command": "/bin/bash run.sh",
 					"resourceLinkedService": {
@@ -47,31 +39,11 @@
 								}
 							}
 						]
-					},
-					"retentionTimeInDays": 1
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "ls_batch",
 					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "Custom",
-				"type": "Custom",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"referenceObjects": {
-						"linkedServices": [],
-						"datasets": []
-					}
 				}
 			}
 		],
