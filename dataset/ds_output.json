@@ -7,7 +7,7 @@
 		},
 		"parameters": {
 			"sastoken": {
-				"type": "string"
+				"type": "securestring"
 			}
 		},
 		"annotations": [],
