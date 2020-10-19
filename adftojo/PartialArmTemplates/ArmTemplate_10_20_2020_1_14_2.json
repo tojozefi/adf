@@ -1,0 +1,154 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adftojo"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/batch')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "primes",
+						"type": "Custom",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"command": "/bin/bash run.sh",
+							"resourceLinkedService": {
+								"referenceName": "ls_blob",
+								"type": "LinkedServiceReference"
+							},
+							"folderPath": "primes",
+							"extendedProperties": {
+								"inputfolder": {
+									"value": "@pipeline().parameters.inputFolder",
+									"type": "Expression"
+								},
+								"inputfile": {
+									"value": "@pipeline().parameters.inputFile",
+									"type": "Expression"
+								},
+								"outputext": ".out"
+							},
+							"referenceObjects": {
+								"linkedServices": [
+									{
+										"referenceName": "ls_blob",
+										"type": "LinkedServiceReference"
+									}
+								],
+								"datasets": [
+									{
+										"referenceName": "ds_input",
+										"type": "DatasetReference",
+										"parameters": {
+											"sastoken": {
+												"type": "SecureString",
+												"value": "**********"
+											}
+										}
+									},
+									{
+										"referenceName": "ds_output",
+										"type": "DatasetReference",
+										"parameters": {
+											"sastoken": {
+												"type": "SecureString",
+												"value": "**********"
+											}
+										}
+									}
+								]
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_batch",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"parameters": {
+					"inputFile": {
+						"type": "string"
+					},
+					"inputFolder": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_input')]",
+				"[concat(variables('factoryId'), '/datasets/ds_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_input')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdfBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"sastoken": {
+						"type": "securestring"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "input"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_output')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AdfBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"sastoken": {
+						"type": "securestring"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "output"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

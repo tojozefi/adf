@@ -11,6 +11,9 @@
 		"ls_batch_accessKey": {
 			"value": ""
 		},
+		"ls_blob_connectionString": {
+			"value": ""
+		},
 		"ls_batch_properties_typeProperties_accountName": {
 			"value": "adftojo"
 		},

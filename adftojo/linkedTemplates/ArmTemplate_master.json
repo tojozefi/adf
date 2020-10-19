@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessKey' of 'ls_batch'"
 		},
+		"ls_blob_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_blob'"
+		},
 		"ls_batch_properties_typeProperties_accountName": {
 			"type": "string",
 			"defaultValue": "adftojo"
@@ -68,6 +72,9 @@
 					},
 					"AdfBlobStorage_connectionString": {
 						"value": "[parameters('AdfBlobStorage_connectionString')]"
+					},
+					"ls_blob_connectionString": {
+						"value": "[parameters('ls_blob_connectionString')]"
 					},
 					"ls_batch_accessKey": {
 						"value": "[parameters('ls_batch_accessKey')]"
