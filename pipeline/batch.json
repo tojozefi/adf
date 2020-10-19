@@ -29,7 +29,8 @@
 						"inputfile": {
 							"value": "@pipeline().parameters.inputFile",
 							"type": "Expression"
-						}
+						},
+						"outputext": ".out"
 					},
 					"referenceObjects": {
 						"linkedServices": [
