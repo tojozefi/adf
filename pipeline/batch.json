@@ -15,9 +15,12 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"command": "/bin/bash run.sh",
+					"command": {
+						"value": "/bin/bash -c \"echo inputFolder=@pipeline().parameters.inputFolder ; inputFile=@pipeline().parameters.inputFile\"",
+						"type": "Expression"
+					},
 					"resourceLinkedService": {
-						"referenceName": "AdfBlobStorage",
+						"referenceName": "ls_blob",
 						"type": "LinkedServiceReference"
 					},
 					"folderPath": "primes",
