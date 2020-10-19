@@ -32,7 +32,12 @@
 						}
 					},
 					"referenceObjects": {
-						"linkedServices": [],
+						"linkedServices": [
+							{
+								"referenceName": "AdfBlobStorage",
+								"type": "LinkedServiceReference"
+							}
+						],
 						"datasets": [
 							{
 								"referenceName": "ds_input",
