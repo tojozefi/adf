@@ -29,7 +29,7 @@
 		},
 		"ls_batch_properties_typeProperties_poolName": {
 			"type": "string",
-			"defaultValue": "primes"
+			"defaultValue": "adf"
 		},
 		"blobtrigger_properties_batch_parameters_inputFile": {
 			"type": "string",

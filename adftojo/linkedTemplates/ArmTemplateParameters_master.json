@@ -21,7 +21,7 @@
 			"value": "https://adftojo.westeurope.batch.azure.com"
 		},
 		"ls_batch_properties_typeProperties_poolName": {
-			"value": "primes"
+			"value": "adf"
 		},
 		"blobtrigger_properties_batch_parameters_inputFile": {
 			"value": "@triggerBody().fileName"

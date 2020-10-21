@@ -29,7 +29,7 @@
 		},
 		"ls_batch_properties_typeProperties_poolName": {
 			"type": "string",
-			"defaultValue": "primes"
+			"defaultValue": "adf"
 		},
 		"blobtrigger_properties_batch_parameters_inputFile": {
 			"type": "string",
@@ -99,7 +99,7 @@
 										"parameters": {
 											"sastoken": {
 												"type": "SecureString",
-												"value": "?sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2020-11-10T08:10:25Z&st=2020-10-09T23:10:25Z&spr=https&sig=reFFC3PIHQcOp%2BQLkJJvQgV%2BRBaDlst7lhDlKMpv7as%3D"
+												"value": "**********"
 											}
 										}
 									},
@@ -109,7 +109,7 @@
 										"parameters": {
 											"sastoken": {
 												"type": "SecureString",
-												"value": "?sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2020-11-10T08:10:25Z&st=2020-10-09T23:10:25Z&spr=https&sig=reFFC3PIHQcOp%2BQLkJJvQgV%2BRBaDlst7lhDlKMpv7as%3D"
+												"value": "**********"
 											}
 										}
 									}
@@ -133,9 +133,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_blob')]",
 				"[concat(variables('factoryId'), '/datasets/ds_input')]",
 				"[concat(variables('factoryId'), '/datasets/ds_output')]",
-				"[concat(variables('factoryId'), '/linkedServices/ls_blob')]",
 				"[concat(variables('factoryId'), '/linkedServices/ls_batch')]"
 			]
 		},
@@ -222,14 +222,27 @@
 					"batchUri": "[parameters('ls_batch_properties_typeProperties_batchUri')]",
 					"poolName": "[parameters('ls_batch_properties_typeProperties_poolName')]",
 					"linkedServiceName": {
-						"referenceName": "AdfBlobStorage",
+						"referenceName": "ls_blob",
 						"type": "LinkedServiceReference"
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_blob')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_blob')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('ls_blob_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/blobtrigger')]",
@@ -263,19 +276,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/batch')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ls_blob')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('ls_blob_connectionString')]"
-				}
-			},
-			"dependsOn": []
 		}
 	]
 }
