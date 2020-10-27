@@ -80,7 +80,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AdfBlobStorage",
+					"referenceName": "ls_blob",
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
@@ -98,7 +98,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_blob')]"
 			]
 		},
 		{
@@ -107,7 +107,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AdfBlobStorage",
+					"referenceName": "ls_blob",
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
@@ -125,7 +125,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AdfBlobStorage')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_blob')]"
 			]
 		},
 		{
