@@ -2,7 +2,7 @@
 	"name": "ds_input",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AdfBlobStorage",
+			"referenceName": "ls_blob",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
