@@ -1,6 +1,11 @@
 {
 	"name": "ls_keyvault",
 	"properties": {
+		"parameters": {
+			"sastoken": {
+				"type": "securestring"
+			}
+		},
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
