@@ -19,9 +19,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessKey' of 'ls_batch'"
 		},
-		"ls_batch_properties_typeProperties_accountName": {
+		"ls_keyvault_properties_typeProperties_baseUrl": {
 			"type": "string",
-			"defaultValue": "adftojo"
+			"defaultValue": "https://adftojo.vault.azure.net/"
 		},
 		"ls_batch_properties_typeProperties_batchUri": {
 			"type": "string",
@@ -30,6 +30,10 @@
 		"ls_batch_properties_typeProperties_poolName": {
 			"type": "string",
 			"defaultValue": "primes"
+		},
+		"ls_batch_properties_typeProperties_accountName": {
+			"type": "string",
+			"defaultValue": "adftojo"
 		},
 		"blobtrigger_properties_batch_parameters_inputFile": {
 			"type": "string",
@@ -70,6 +74,24 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('ls_blob_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_keyvault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"sastoken": {
+						"type": "securestring"
+					}
+				},
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('ls_keyvault_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -136,16 +158,16 @@
 				"annotations": [],
 				"type": "AzureBatch",
 				"typeProperties": {
-					"accountName": "[parameters('ls_batch_properties_typeProperties_accountName')]",
-					"accessKey": {
-						"type": "SecureString",
-						"value": "[parameters('ls_batch_accessKey')]"
-					},
 					"batchUri": "[parameters('ls_batch_properties_typeProperties_batchUri')]",
 					"poolName": "[parameters('ls_batch_properties_typeProperties_poolName')]",
+					"accountName": "[parameters('ls_batch_properties_typeProperties_accountName')]",
 					"linkedServiceName": {
 						"referenceName": "ls_blob",
 						"type": "LinkedServiceReference"
+					},
+					"accessKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_batch_accessKey')]"
 					}
 				}
 			},
@@ -162,7 +184,14 @@
 					{
 						"name": "primes",
 						"type": "Custom",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "sastoken",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -203,8 +232,8 @@
 										"type": "DatasetReference",
 										"parameters": {
 											"sastoken": {
-												"type": "SecureString",
-												"value": "**********"
+												"value": "@variables('sastoken')",
+												"type": "Expression"
 											}
 										}
 									},
@@ -213,8 +242,8 @@
 										"type": "DatasetReference",
 										"parameters": {
 											"sastoken": {
-												"type": "SecureString",
-												"value": "**********"
+												"value": "@variables('sastoken')",
+												"type": "Expression"
 											}
 										}
 									}
@@ -225,14 +254,65 @@
 							"referenceName": "ls_batch",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "keyvault",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": true,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://adftojo.vault.azure.net/secrets/sastoken?api-version=7.0",
+							"method": "GET",
+							"headers": {},
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "sastoken",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "keyvault",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "sastoken",
+							"value": {
+								"value": "@activity('keyvault').output.value",
+								"type": "Expression"
+							}
+						}
 					}
 				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
 				"parameters": {
 					"inputFile": {
 						"type": "string"
 					},
 					"inputFolder": {
 						"type": "string"
+					}
+				},
+				"variables": {
+					"sastoken": {
+						"type": "String"
 					}
 				},
 				"annotations": []

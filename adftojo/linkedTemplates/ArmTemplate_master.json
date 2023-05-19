@@ -19,10 +19,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_blob'"
 		},
-		"ls_batch_properties_typeProperties_accountName": {
-			"type": "string",
-			"defaultValue": "adftojo"
-		},
 		"ls_batch_properties_typeProperties_batchUri": {
 			"type": "string",
 			"defaultValue": "https://adftojo.westeurope.batch.azure.com"
@@ -30,6 +26,10 @@
 		"ls_batch_properties_typeProperties_poolName": {
 			"type": "string",
 			"defaultValue": "primes"
+		},
+		"ls_batch_properties_typeProperties_accountName": {
+			"type": "string",
+			"defaultValue": "adftojo"
 		},
 		"blobtrigger_properties_batch_parameters_inputFile": {
 			"type": "string",
@@ -42,6 +42,10 @@
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo"
+		},
+		"ls_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://adftojo.vault.azure.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -79,14 +83,17 @@
 					"ls_batch_accessKey": {
 						"value": "[parameters('ls_batch_accessKey')]"
 					},
-					"ls_batch_properties_typeProperties_accountName": {
-						"value": "[parameters('ls_batch_properties_typeProperties_accountName')]"
+					"ls_keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_keyvault_properties_typeProperties_baseUrl')]"
 					},
 					"ls_batch_properties_typeProperties_batchUri": {
 						"value": "[parameters('ls_batch_properties_typeProperties_batchUri')]"
 					},
 					"ls_batch_properties_typeProperties_poolName": {
 						"value": "[parameters('ls_batch_properties_typeProperties_poolName')]"
+					},
+					"ls_batch_properties_typeProperties_accountName": {
+						"value": "[parameters('ls_batch_properties_typeProperties_accountName')]"
 					},
 					"blobtrigger_properties_batch_parameters_inputFile": {
 						"value": "[parameters('blobtrigger_properties_batch_parameters_inputFile')]"

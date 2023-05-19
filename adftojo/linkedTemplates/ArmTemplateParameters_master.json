@@ -14,14 +14,14 @@
 		"ls_blob_connectionString": {
 			"value": ""
 		},
-		"ls_batch_properties_typeProperties_accountName": {
-			"value": "adftojo"
-		},
 		"ls_batch_properties_typeProperties_batchUri": {
 			"value": "https://adftojo.westeurope.batch.azure.com"
 		},
 		"ls_batch_properties_typeProperties_poolName": {
 			"value": "primes"
+		},
+		"ls_batch_properties_typeProperties_accountName": {
+			"value": "adftojo"
 		},
 		"blobtrigger_properties_batch_parameters_inputFile": {
 			"value": "@triggerBody().fileName"
@@ -31,6 +31,9 @@
 		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"value": "/subscriptions/e7379a49-abdb-43ab-80e6-dcb73554a843/resourceGroups/adf/providers/Microsoft.Storage/storageAccounts/adftojo"
+		},
+		"ls_keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://adftojo.vault.azure.net/"
 		},
 		"containerUri": {
 			"value": ""
