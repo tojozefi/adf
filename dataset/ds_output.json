@@ -7,11 +7,7 @@
 		},
 		"parameters": {
 			"sastoken": {
-				"type": "securestring",
-				"defaultValue": {
-					"type": "SecureString",
-					"value": "**********"
-				}
+				"type": "securestring"
 			}
 		},
 		"annotations": [],
