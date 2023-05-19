@@ -5,7 +5,14 @@
 			{
 				"name": "primes",
 				"type": "Custom",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "sastoken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -45,8 +52,8 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"sastoken": {
-										"type": "SecureString",
-										"value": "**********"
+										"value": "@variables('sastoken')",
+										"type": "Expression"
 									}
 								}
 							},
@@ -55,8 +62,8 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"sastoken": {
-										"type": "SecureString",
-										"value": "**********"
+										"value": "@variables('sastoken')",
+										"type": "Expression"
 									}
 								}
 							}
@@ -67,6 +74,47 @@
 					"referenceName": "ls_batch",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "keyvault",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://adftojo.vault.azure.net/secrets/sastoken?api-version=7.0",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "sastoken",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "keyvault",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "sastoken",
+					"value": {
+						"value": "@activity('keyvault').output.value",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
@@ -75,6 +123,11 @@
 			},
 			"inputFolder": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"sastoken": {
+				"type": "String"
 			}
 		},
 		"annotations": []
